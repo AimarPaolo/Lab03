@@ -1,14 +1,21 @@
 class Dictionary:
-    def __init__(self):
-        pass
+    def _init_(self, nomeFile):
+        self.nomeFile = nomeFile
 
-    def loadDictionary(self,path):
-        pass
+
+    def loadDictionary(self):
+        lista = []
+        with open(self.nomeFile, 'r') as f:
+            lines = f.readlines()
+        for l in lines:
+            lista.append(l.splitlines()[0])
+        return lista
 
     def printAll(self):
-        pass
+        for parola in self.dict:
+            return parola
 
 
     @property
     def dict(self):
-        return self._dict
+        return self.loadDictionary()
