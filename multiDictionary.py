@@ -23,15 +23,7 @@ class MultiDictionary:
     def searchWord(self, words, language):
         dic = None
         ritorno = None
-        if language == "italian":
-            dic = dc.Dictionary("Italian.txt")
-        # lista=d.loadDictionary(".txt")
-        elif language == "english":
-            dic = dc.Dictionary("English.txt")
-        # lista= d.loadDictionary("English.txt")
-        elif language == "spanish":
-            dic = dc.Dictionary("Spanish.txt")
-            # lista=d.loadDictionary("Spanish.txt")
+        dic = self.checkLanguage(language)
         parola_corretta = self.replaceChars(words)
         lista = dic.loadDictionary()
         presente = False
@@ -39,24 +31,32 @@ class MultiDictionary:
             parola_dizionario = self.replaceChars(parole)
             if parola_dizionario.__eq__(parola_corretta):
                 presente = True
-                ritorno = rw.RichWord(parola_corretta, True)
+                ritorno = rw.RichWord(parola_corretta, presente)
         if presente is not True:
-            ritorno = rw.RichWord(parola_corretta, False)
+            ritorno = rw.RichWord(parola_corretta, presente)
         return ritorno
 
-    def ricercaDicotomica(self, words, language):
-        if language == "italian":
-            dic = dc.Dictionary("Italian.txt")
-        elif language == "english":
-            dic = dc.Dictionary("English.txt")
-        elif language == "spanish":
-            dic = dc.Dictionary("Spanish.txt")
+    def searchWordDichotomic(self, words, language):
+        dic = self.checkLanguage(language)
+        ritorno = None
         parola_corretta = self.replaceChars(words)
         lista = dic.loadDictionary()
-        presente = False
-        indice = int(len(lista) / 2)
-        if (lista[indice] == parola_corretta):
-            presente = True
+        primo = 0
+        ultimo = len(lista) - 1
+        trovato = False
+        while primo <= ultimo and not trovato:
+            indice = int((primo+ultimo)/2)
+            if lista[indice] == parola_corretta:
+                trovato = True
+                ritorno = rw.RichWord(parola_corretta, trovato)
+            else:
+                if lista[indice] < parola_corretta:
+                    primo = indice + 1
+                else:
+                    ultimo = indice - 1
+        if trovato is False:
+            ritorno = rw.RichWord(parola_corretta, False)
+        return ritorno
 
     def replaceChars(self, text):
         chars = "\\`*{}[]()>#+-.!$%^;,=~"
@@ -70,3 +70,15 @@ class MultiDictionary:
         text = text.replace("ù", "u")
         text = text.replace("ò", "o")
         return text
+
+    def checkLanguage(self, language):
+        if language == "italian":
+            dic = dc.Dictionary("Italian.txt")
+        # lista=d.loadDictionary(".txt")
+        elif language == "english":
+            dic = dc.Dictionary("English.txt")
+        # lista= d.loadDictionary("English.txt")
+        elif language == "spanish":
+            dic = dc.Dictionary("Spanish.txt")
+            # lista=d.loadDictionary("Spanish.txt")
+        return dic
