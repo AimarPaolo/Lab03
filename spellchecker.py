@@ -1,10 +1,10 @@
 import time
-import multiDictionary as mdict
-mdic = mdict.MultiDictionary()
+import multiDictionary as md
+mdic = md.MultiDictionary()
 class SpellChecker:
 
-    def _init_(self):
-        self.parole=[]
+    def __init__(self, parole=None):
+        self.parole = parole
 
 
     def handleSentence(self, txtIn, language):
@@ -12,17 +12,17 @@ class SpellChecker:
         listaErrate=[]
         self.parole = txtIn.split(" ")
         for parola in self.parole:
-            lista.append(md.searchWord(parola, language))
+            lista.append(mdic.searchWord(parola, language))
         for r in lista:
-            if r.corretta == False:
-                listaErrate.append(r.parola)
+            if r.corretta is not True:
+                listaErrate.append(r._parola)
         if listaErrate.__len__() != 0:
             print(f"Le parole errate sono")
             for par in listaErrate:
                 print(par)
-        if listaErrate._len_()==0:
+        if listaErrate.__len__() == 0:
             print(f"Tutte le parole sono corrette")
-        print ( time.process_time())
+        print(time.process_time())
 
     def printMenu(self):
         print("__________\n" +
@@ -36,15 +36,3 @@ class SpellChecker:
               "__________\n")
 
 
-def replaceChars(text):
-    chars = "\\`*{}[]()>#+-.!$%^;,=~"
-    for c in chars:
-        text = text.replace(c, "")
-    text = text.lower()
-    text = text.replace("à", "a")
-    text = text.replace("ì", "i")
-    text = text.replace("è", "e")
-    text = text.replace("é", "e")
-    text = text.replace("ù", "u")
-    text = text.replace("ò", "o")
-    return text
