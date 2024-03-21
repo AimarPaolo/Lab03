@@ -3,8 +3,9 @@ import multiDictionary as md
 mdic = md.MultiDictionary()
 class SpellChecker:
 
-    def __init__(self, parole=None):
+    def __init__(self, parole=None, time_passed = 0):
         self.parole = parole
+        self.time_passed = time_passed
 
     def handleSentence(self, txtIn, language):
         lista = []
@@ -22,7 +23,10 @@ class SpellChecker:
         if listaErrate.__len__() == 0:
             print(f"Tutte le parole sono corrette")
         print(time.process_time())
+        #self.time_elapsed(time.process_time())
 
+    def time_elapsed(self, time_calc):
+        time_passed = time_calc
     def handleSentenceWithDichotomic(self, txtIn, language):
         lista = []
         listaErrate = []
@@ -38,7 +42,8 @@ class SpellChecker:
                 print(par)
         if listaErrate.__len__() == 0:
             print(f"Tutte le parole sono corrette")
-        print(time.process_time())
+            print(time.process_time())
+      #  print(time.process_time()-self.time_passed)
 
     def printMenu(self):
         print("__________\n" +
